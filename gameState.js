@@ -2,7 +2,6 @@ var gameState = {
 
 
     create: function() {
-    	this.storage = new StorageSystem();
         this.boxSize = 54;
         this.matrixHeight = 7;
         this.matrixWidth = 8;
@@ -22,7 +21,6 @@ var gameState = {
         this.healthTag = this.game.add.bitmapText(25, 215, "luminari-white", "225/225", 20);
         this.monsters = game.add.group();
         this.monster = new Monster(0);
-        this.teammateGroup = game.add.group();
         this.loadCharacter();
         this.game.add.sprite(0, 291, 'stroke');
         this.attackGroup = game.add.group();
