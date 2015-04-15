@@ -1,6 +1,5 @@
 var gameState = {
 
-
     create: function() {
         this.boxSize = 54;
         this.matrixHeight = 7;
@@ -32,7 +31,7 @@ var gameState = {
         this.damageTags = this.game.add.group();
         this.teamAttacks = this.game.add.group();
 
-        this.setMonsterLevel(this.myCharacter.level);
+        this.monster.setMonsterLevel(this.myCharacter.level);
 
         this.game.time.events.add((2 + Math.random() * 10) * 1000, function() {
             var attackTime = Math.floor(1 + Math.random() * 3);
@@ -70,7 +69,7 @@ var gameState = {
 
         if (this.monster.alive == false) {
             this.monster = new Monster(0);
-            client.socket.emit("gameOperate",{"action":"setMonsterLevel","level":this.myCharacter.level});
+            this.monster.setMonsterLevel(this.myCharacter.level);
             this.monsters.removeAll();
             this.monsters.add(this.monster.body);
         };
@@ -371,7 +370,8 @@ var gameState = {
                     var column = remove[k].column;
                     if ( this.matrix[row][column].bonusCount > 0) {
                         result = false;
-                        this.matrix[row][column].bonusCount = Math.max(remove.length, this.matrix[row][column].bonusCount)
+                        this.matrix[row][column].bonusCount = Math.max(remove.length, 
+                            this.matrix[row][column].bonusCount);
                     };
                 };
                 if (result) {
@@ -562,71 +562,6 @@ var gameState = {
         }
     },
 
-    pattackMonster: function(damage, clientId) {
-        if (this.monster.alive) {
-            this.monster.attacked(damage);
-        }
-        var character = this.characters[clientId];
-        if (character) {
-            var moveX = Math.random() * 120 + this.monster.body.x - 60;
-            var moveY = Math.random() * 120 + this.monster.body.y - 60;
-            var sword = this.game.add.sprite(character.head.x + 30, character.head.y + 30, 'box', 0);
-            sword.anchor.setTo(0.5, 0.5);
-            sword.scale.setTo(0.2, 0.2);
-            this.teamAttacks.add(sword);
-            game.add.tween(sword.scale).to({
-                x: 1.5,
-                y: 1.5
-            }, 1000, Phaser.Easing.Quadratic.InOut).start();
-            game.add.tween(sword).to({
-                x: moveX,
-                y: moveY
-            }, 1000, Phaser.Easing.Quadratic.InOut).start();
-            game.add.tween(sword).to({
-                alpha: 0
-            }, 1000, Phaser.Easing.Quadratic.InOut).start();
-            this.displayDamage("-" + damage, "luminari-red", 10, moveX, moveY, 60);
-        };
-
-    },
-
-    mattackMonster: function(damage, clientId) {
-        if (this.monster.alive) {
-            this.monster.attacked(damage);
-        }
-        var character = this.characters[clientId];
-        if (character) {
-            var moveX = Math.random() * 120 + this.monster.body.x - 60;
-            var moveY = Math.random() * 120 + this.monster.body.y - 60;
-            var book = this.game.add.sprite(character.head.x + 30, character.head.y + 30, 'box', 2);
-            book.anchor.setTo(0.5, 0.5);
-            book.scale.setTo(0.2, 0.2);
-            this.teamAttacks.add(book);
-            game.add.tween(book.scale).to({
-                x: 1.5,
-                y: 1.5
-            }, 1000, Phaser.Easing.Quadratic.InOut).start();
-            game.add.tween(book).to({
-                x: moveX,
-                y: moveY
-            }, 1000, Phaser.Easing.Quadratic.InOut).start();
-            game.add.tween(book).to({
-                alpha: 0
-            }, 1000, Phaser.Easing.Quadratic.InOut).start();
-            this.displayDamage("-" + damage, "luminari-pink", 10, moveX, moveY, 60);
-        };
-    },
-
-    gainExp: function(exp, clientId) {
-        var character = this.characters[clientId];
-        if (character) {
-            this.characters[clientId].gainExp(exp);
-            this.displayDamage("+" + exp, "luminari-yellow", 10, character.head.x + 20, character.head.y, 20);
-        };
-    },
-
-    healTeam: function(heal, clientId) {
-    },
 
     monsterAttack: function(attackTime, damage) {
         if (this.monster.alive) {
@@ -720,11 +655,7 @@ var gameState = {
     		this.game.state.start('waitState');
     	})
     },
-
-
-    setMonsterLevel: function(level) {
-        this.monster.setMonsterLevel(level);
-    },
+    
 
     loadCharacter: function(){
         this.myCharacter = myCharacter;
