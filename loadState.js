@@ -35,6 +35,7 @@ var loadState = {
         game.load.image('recordButton', 'assets/img/recordButton.png');
         game.load.image('namePanel', 'assets/img/namePanel.png');
         game.load.image('gameOver', 'assets/img/gameOver.png');
+        game.load.image('dialog','assets/img/dialog.png');
 
         game.load.audio('bgm', 'assets/se/music/bgm.mp3');
         game.load.audio('remove', 'assets/se/remove.wav');
