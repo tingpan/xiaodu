@@ -543,6 +543,7 @@ var gameState = {
 
     reactBox: function(group, moveX, moveY, callBack) {
         if (group.length > 0) {
+            var bonusRate = 1.0;
             group.forEach(function(diebox) {
                 game.add.tween(diebox).to({
                     x: moveX,
@@ -551,12 +552,15 @@ var gameState = {
                 game.add.tween(diebox).to({
                     alpha: 0.2
                 }, 400, Phaser.Easing.Quadratic.InOut).start();
+                if (diebox.bonus > 0) {
+                    bonusRate += diebox.bonus/10;
+                };
             }, this);
             game.time.events.add(400, function() {
                 group.emitter.x = moveX;
                 group.emitter.y = moveY;
                 group.emitter.start(true, 1000, null, 10);
-                callBack.bind(this)(moveX, moveY, group.length);
+                callBack.bind(this)(moveX, moveY, group.length * bonusRate);
                 group.removeAll();
             }, this);
         }
