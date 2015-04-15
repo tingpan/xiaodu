@@ -364,6 +364,21 @@ var gameState = {
                 "row": i,
                 "column": j
             });
+            if (remove.length > 3) {
+                var result = true;
+                for (var k = 0; k < remove.length; k ++) {
+                    var row = remove[k].row;
+                    var column = remove[k].column;
+                    if ( this.matrix[row][column].bonusCount > 0) {
+                        result = false;
+                        this.matrix[row][column].bonusCount = Math.max(remove.length, this.matrix[row][column].bonusCount)
+                    };
+                };
+                if (result) {
+                    this.matrix[i][j].bonusCount = 1;
+                    this.matrix[i][j].bonus = remove.length;
+                };
+            };
         };
         return remove;
     },
@@ -381,6 +396,12 @@ var gameState = {
             var column = remove[i].column;
             var diebox = this.matrix[row][column];
             if (diebox) {
+                if (diebox.bonusCount && diebox.bonusCount > 0) { 
+                    this.matrix[row][column].bonusCount --;
+                    //TODO: add bonus animation
+                    this.matrix[row][column].rotation = 3.14; 
+                    continue; 
+                };
                 removeNum++;
                 switch (diebox.type) {
                     case 0:
