@@ -4,7 +4,7 @@
 var Dialog = function(title, message){
     this.body = game.add.sprite(0,0,'dialog');
     this.title = game.add.text(game.world.centerX, 210, title,{
-        font:"30px STHupo272950",
+        font:"30px STHupo273238",
         align: 'center',
         fill: '#6B4200',
         wordWrap: true,
@@ -14,7 +14,7 @@ var Dialog = function(title, message){
 
 
     this.message = game.add.text(game.world.centerX, 250, message, {
-        font:"18px STHupo272950",
+        font:"18px STHupo273238",
         align: 'center',
         fill: '#6B4200',
         wordWrap: true,
