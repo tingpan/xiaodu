@@ -1,6 +1,5 @@
 var gameState = {
 
-
     create: function() {
         this.boxSize = 54;
         this.matrixHeight = 7;
