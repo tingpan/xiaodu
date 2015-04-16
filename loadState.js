@@ -9,31 +9,21 @@ var loadState = {
         this.scale.pageAlignHorizontally = true;
 
         game.load.spritesheet('box', 'assets/spritesheet/box.png', 54, 54);
-        game.load.spritesheet('star', 'assets/spritesheet/star.png', 21, 21);
-        game.load.spritesheet('rabbit', 'assets/spritesheet/rabbit.png', 237, 237);
-        game.load.spritesheet('startButton', 'assets/spritesheet/startButton.png', 96, 96);
+        game.load.spritesheet('rabbit', 'assets/monster/rabbit.png', 237, 237);
         game.load.spritesheet('box', 'assets/spritesheet/box.png', 54, 54);
-        game.load.spritesheet('charas', 'assets/spritesheet/charas.png', 480, 240);
         game.load.spritesheet('charasHead', 'assets/spritesheet/charasHead.png', 53, 53);
-        game.load.spritesheet('map', 'assets/spritesheet/map.png', 480, 720);
-        game.load.spritesheet('arrow', 'assets/spritesheet/arrow.png', 22, 21);
-        game.load.spritesheet('dialog', 'assets/spritesheet/dialogBg.png', 320, 41);
-        game.load.spritesheet('startText', 'assets/spritesheet/start.png', 70, 50);
-        game.load.spritesheet('sunsetButton', 'assets/spritesheet/mapButton.png', 70, 50);
         game.load.spritesheet('personBar', 'assets/spritesheet/player_health.png', 125, 10);
+        game.load.spritesheet('chanmode','assets/spritesheet/chanmode.png',151,159);
+        game.load.spritesheet('gameStart','assets/spritesheet/kaishiyouxi.png',252,85);
+        game.load.spritesheet('gameIntro','assets/spritesheet/youxijianjie.png',206,70);
 
         game.load.image('cover', 'assets/img/startPage.png');
-        game.load.image('kaishiyouxi', 'assets/img/kaishiyouxi.png');
-        game.load.image('youxijieshao', 'assets/img/youxijieshao.png');
         game.load.image('logo', 'assets/img/logo.png');
-        game.load.image('background', 'assets/img/background.png');
         game.load.image('diamond', 'assets/img/diamond.png');
         game.load.image('stroke', 'assets/img/back1.png');
         game.load.image('iconBack', 'assets/img/back2.png');
         game.load.image('monsterBack', 'assets/img/monsterBack.png');
         game.load.image('monsterBar', 'assets/img/monster_health.png');
-        game.load.image('recordButton', 'assets/img/recordButton.png');
-        game.load.image('namePanel', 'assets/img/namePanel.png');
         game.load.image('gameOver', 'assets/img/gameOver.png');
         game.load.image('dialog','assets/img/dialog.png');
 

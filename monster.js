@@ -1,5 +1,4 @@
 var Monster = function(monsterID){
-
 	this.monsterData = monsterData[monsterID];
 	this.monsterName = this.monsterData.name;
 	this.monsterLv = this.monsterData.level;
@@ -10,20 +9,16 @@ var Monster = function(monsterID){
 	this.health = this.maxhealth;
 	this.alive = true;
 	this.damage =(this.monsterLv - 1) * 8 + this.damageRate * Monster.BASE_DAMAGE;
-	//console.log(this.damage);
 	this.body = game.add.sprite(240,165,this.monsterData.spritesheet);
 	this.body.anchor.setTo(0.5,0.5);
 	this.addAnim('normal');
 	this.addAnim('attack');
 	this.addAnim('hurt');
 	this.body.animations.play('normal');
-
 	this.hpBar = game.add.sprite(40,40,'monsterBar');
 	this.nameLabel = game.add.bitmapText(180, 15, 'luminari-dark',this.monsterName,20);
-
 	this.attackFx = game.add.audio(this.monsterData.attackFx);
-	this.hurtFx = game.add.audio(this.monsterData.hurtFx);	
-	
+	this.hurtFx = game.add.audio(this.monsterData.hurtFx);
 }
 
 Monster.prototype.addAnim = function(animName){
@@ -63,13 +58,11 @@ Monster.prototype.attacked = function(damage){
 
 Monster.prototype.attack = function(attackTime){
 	if (this.alive) {
-		game.input.enabled = false;
 		this.monsterStatus = "attack";
 		this.body.scale.setTo(1.3,1.3);
 		this.body.animations.play('attack');
 		this.attackFx.play();
 		game.time.events.add(1200*attackTime,function(){
-			game.input.enabled = true;
 			this.body.animations.play('normal');
 			this.monsterStatus = "normal";
 			this.body.scale.setTo(1,1);		

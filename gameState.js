@@ -1,6 +1,7 @@
 var gameState = {
 
     create: function() {
+        this.dropping = false;
         this.boxSize = 54;
         this.matrixHeight = 7;
         this.matrixWidth = 8;
@@ -8,7 +9,6 @@ var gameState = {
         this.matrix = [];
         this.active = false;
         this.activeTween = false;
-        this.characters = {};
         this.myCharacter = null;
         this.game.add.sprite(24, 318, 'iconBack');
         this.boxGroup = game.add.group();
@@ -27,7 +27,6 @@ var gameState = {
         this.expGroup = game.add.group();
         this.magicGroup = game.add.group();
         this.createMatrix();
-
         this.damageTags = this.game.add.group();
         this.teamAttacks = this.game.add.group();
 
@@ -52,6 +51,7 @@ var gameState = {
         this.removeMultiFx.volume = 0.4;
         this.selectFx.volume = 0.2;
     },
+
     update: function() {
         this.damageTags.forEach(function(tag) {
             if (tag && tag.alpha == 0) {
@@ -72,6 +72,11 @@ var gameState = {
             this.monster.setMonsterLevel(this.myCharacter.level);
             this.monsters.removeAll();
             this.monsters.add(this.monster.body);
+        };
+        //console.log("" + this.dropping + this.monster.status);
+
+        if (this.game.input.enabled == false && this.currentHealth > 0 && this.dropping == false && this.monster.monsterStatus=="normal"){
+            this.game.input.enabled = true;
         };
     },
 
@@ -260,6 +265,7 @@ var gameState = {
         return this.scanBotton(row + 1, column, duplicate);
 
     },
+
     mouseDown: function(sprite, pointer) {
         this.selectFx.play();
         var inputX = pointer.x;
@@ -330,6 +336,7 @@ var gameState = {
 
     swapEmit: function(i1, j1, i2, j2) {
         game.input.enabled = false;
+        this.dropping = true;
         this.swap(i1, j1, i2, j2);
         game.time.events.add(500, function() {
             var remove = this.scanBox(i1, j1).concat(this.scanBox(i2, j2));
@@ -339,7 +346,7 @@ var gameState = {
                 // };
                 this.removeBox(remove);
             } else {
-                game.input.enabled = true;
+                this.dropping = false;
                 this.swap(i1, j1, i2, j2);
             }
 
@@ -385,7 +392,7 @@ var gameState = {
 
     removeBox: function(remove) {
         if (remove.length == 0) {
-            game.input.enabled = true;
+            this.dropping = false;
             return;
         }
         var emitters = [];
@@ -478,10 +485,8 @@ var gameState = {
                         x: "+0",
                         y: movey
                     }, 400, Phaser.Easing.Quadratic.InOut).start();
-                    //console.log("column:" + i + "box:"+ j + "drop to "+ j + dropSize);
                 };
 
-                //console.log("dropSize:" + dropSize);
                 for (var s = 1; s <= dropSize; s++) {
                     var row = dropSize - s;
                     var x = this.margin + this.boxSize / 2 + i * this.boxSize;
@@ -568,7 +573,8 @@ var gameState = {
 
 
     monsterAttack: function(attackTime, damage) {
-        if (this.monster.alive) {
+        if (this.monster.alive && this.currentHealth > 0) {
+            game.input.enabled = false;
             this.monster.attack(attackTime);
             this.currentHealth -= damage;
             if (this.currentHealth <= 0) {
@@ -648,21 +654,22 @@ var gameState = {
 
     gameOver: function(){
     	this.game.input.enabled = false;
-    	this.game.time.events.removeAll();
-    	var gameOverImg = this.game.add.sprite(0,0,"gameOver");
-    	gameOverImg.alpha = 0;
-    	this.game.add.tween(gameOverImg).to({
-                    alpha: 1
-                }, 400, Phaser.Easing.Linear.None).start();
-    	this.game.time.events.add(2000,function(){
-    		this.game.input.enabled = true;
-    		this.game.state.start('waitState');
-    	})
+        game.add.sprite(0,0,"gameOver");
+        new Dialog("游戏结束","你被砍死了！");
+
+    	//gameOverImg.alpha = 0;
+    	//this.game.add.tween(gameOverImg).to({
+         //           alpha: 1
+         //       }, 400, Phaser.Easing.Linear.None).start();
+    	//this.game.time.events.add(2000,function(){
+    	//	this.game.input.enabled = true;
+    	//	this.game.state.start('waitState');
+    	//})
     },
     
 
     loadCharacter: function(){
-        this.myCharacter = myCharacter;
+        this.myCharacter = new Character(0,0,"name",0);
         this.game.add.sprite(64, 270, "personBar", 2).scale.x = 0.7;
         var chaImg = this.game.add.sprite(64, 241, "charasHead", this.myCharacter.job);
         var personBar = this.game.add.sprite(64, 270, "personBar", 1);

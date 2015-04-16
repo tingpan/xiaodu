@@ -1,18 +1,13 @@
 var game = new Phaser.Game(480, 720, Phaser.AUTO, '');
-var storageSys = new StorageSystem();
-var myCharacter;
 game.state.add('loadState', loadState); 
 game.state.add('gameState',gameState);
 game.state.add('coverState',coverState);
-game.state.add('chooseState',chooseState);
-game.state.add('startState',startState);
-game.state.add('nameState',nameState);
-game.state.add('mapState',mapState);
+game.state.add('modeState',modeState);
 game.state.start('loadState');
 
 game.stateList = {
-	"startState" : 0,
-	"mapState" 	 : 1,
+	"coverState" : 0,
+	"modeState" : 1,
 	"gameState"  : 2
 }
 
